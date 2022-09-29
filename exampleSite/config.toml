@@ -550,7 +550,7 @@ enableEmoji = true
   # 许可协议信息 (支持 HTML 格式)
   license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
   # [Experimental] Bundle js
-  bundle = true
+  bundle = false
   # Header config
   # 页面头部导航栏配置
   [params.header]
@@ -868,7 +868,7 @@ enableEmoji = true
       # Waline 评论系统设置 (https://waline.js.org)
       [params.page.comment.waline]
         enable = false
-        serverURL = "https://do-it-waline-comment.vercel.app"
+        serverURL = "https://waline-comment-doit.vercel.app/"
         pageview = true
         comment = true
         # emoji = ['https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo']
@@ -918,7 +918,7 @@ enableEmoji = true
       # Twikoo comment 评论系统设置 (https://twikoo.js.org/)
       [params.page.comment.twikoo]
         enable = true
-        envId = "https://doit-docs-comment-twikoo.vercel.app/"
+        envId = "https://twikoo-comments-doit.vercel.app/"
         region = ""
         path = ""
         visitor = true
@@ -951,6 +951,7 @@ enableEmoji = true
         dataCategory = ""
         dataCategoryId = ""
         dataMapping = "pathname"
+        dataStrict = "0"
         dataReactionsEnabled = "1"
         dataEmitMetadata = "0"
         dataInputPosition = "bottom"
@@ -990,6 +991,11 @@ enableEmoji = true
       [params.page.seo.publisher]
         name = "xxxx"
         logoUrl = "/images/avatar.webp"
+    # Related content config
+    # 相关文章推荐配置
+    [params.page.related]
+      enable = true
+      count = 5
 
   # Sponsor config
   # 赞助设置

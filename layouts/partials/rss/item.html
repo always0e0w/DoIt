@@ -1,5 +1,14 @@
 {{- $params := .Page.Params | merge .Site.Params.Page | merge (dict "author" .Site.Author.name) -}}
-
+{{- $image := $params.featuredImagePreview | default $params.featuredImage -}}
+{{- with .Page.Resources.GetMatch (printf "%s" ($image)) -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- with .Page.Resources.GetMatch "featured-image" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- with .Page.Resources.GetMatch "featured-image-preview" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
 <item>
     <title>
         {{- .Page.Title -}}
@@ -13,17 +22,23 @@
     {{- if .Page.Params.authors -}}
     {{- $lang := ( .Page.Language.Lang | default $.Lang ) -}}
         {{- range $i, $name := .Page.Params.authors -}}
-            {{- with partial "function/author.html" (dict "name" $name "author" (index $.Site.Data.authors $name) "lang" $lang) -}}
+            {{- if $.Site.Data.authors -}}
+                {{- with partial "function/author.html" (dict "name" $name "author" (index $.Site.Data.authors $name) "lang" $lang) -}}
+                    <author>
+                        <name>{{- .name -}}</name>
+                        {{- if .absLink -}}
+                            <uri>{{ .absLink | absURL }}</uri>
+                        {{- else -}}
+                            <uri>{{ .link | absURL }}</uri>
+                        {{- end -}}
+                        {{- if .email -}}
+                            <email>{{ .email }}</email>
+                        {{- end -}}
+                    </author>
+                {{- end -}}
+            {{- else -}}
                 <author>
-                    <name>{{- .name -}}</name>
-                    {{- if .absLink -}}
-                        <uri>{{ .absLink | absURL }}</uri>
-                    {{- else -}}
-                        <uri>{{ .link | absURL }}</uri>
-                    {{- end -}}
-                    {{- if .email -}}
-                        <email>{{ .email }}</email>
-                    {{- end -}}
+                    <name>{{- $name -}}</name>
                 </author>
             {{- end -}}
         {{- end -}}
@@ -37,9 +52,9 @@
     </guid>
     <description>
         {{- "<![CDATA[" | safeHTML -}}
-        {{- with $params.featuredimage -}}
+        {{- with $image -}}
             <div class="featured-image">
-                <img src="{{ . | relURL }}" referrerpolicy="no-referrer">
+                <img src="{{ . }}" referrerpolicy="no-referrer">
             </div>
         {{- end -}}
         {{- $content := .Page.Description -}}

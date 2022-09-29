@@ -882,7 +882,11 @@ new Pjax({
     '.menu-item',
     '.pjax-assets',
     '#fixed-buttons',
-    '.search-dropdown'
+    '.search-dropdown',
+    '.header-title',
+    'link[rel="canonical"]',
+    'link[rel="prev"]',
+    'link[rel="next"]',
   ]
 })
 
